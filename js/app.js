@@ -86,7 +86,7 @@ let timer_function = function () {
 
 };
 
-
+//toggle 
 function flip(arg) {
   arg.classList.toggle("closed");
   arg.classList.toggle("open");
