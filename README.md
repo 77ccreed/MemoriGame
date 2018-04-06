@@ -1,7 +1,7 @@
-#Description
+# Description
 This project of a memory game app was accomplished as a part of Udacity Front-End Nanodegree.
 
-##How The Game Works
+## How The Game Works
 
 The game board consists of sixteen "cards" arranged in a grid. The deck is made up of eight different pairs of cards, each with different symbols on one side. The cards are arranged randomly on the grid with the symbol face down. The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
 
@@ -13,7 +13,7 @@ If the cards match, both cards stay flipped over.
 If the cards do not match, both cards are flipped face down.
 The game ends once all cards have been correctly matched.
 
-#Code Dependencies
+# Code Dependencies
 The app is built with the following dependencies:
 
 HTML5
@@ -24,12 +24,12 @@ Font Awesome icons
 The shuffle() function was provided by Udacity (from Stackoverflow).
 trophy.png
 
-#How to play
+# How to play
 Clone this repository and open index.html in the browser OR use live version of a game.
 
-##Issues
+## Issues
 The game is not yet ready to be played in the horizontal orientation.
 
-#Licence
+# Licence
 The content of this repository is free and is licensed under a MIT Licence.  
 
