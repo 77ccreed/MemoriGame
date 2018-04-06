@@ -5,7 +5,7 @@ This project of a memory game app was accomplished as a part of Udacity Front-En
 
 The game board consists of sixteen "cards" arranged in a grid. The deck is made up of eight different pairs of cards, each with different symbols on one side. The cards are arranged randomly on the grid with the symbol face down. The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
 
-Each turn:
+### Each turn:
 
 The player flips one card over to reveal its underlying symbol.
 The player then turns over a second card, trying to find the corresponding card with the same symbol.
@@ -16,19 +16,19 @@ The game ends once all cards have been correctly matched.
 # Code Dependencies
 The app is built with the following dependencies:
 
-HTML5
-CSS3
-JavaScript
-Google Fonts (Coda, Dosis)
-Font Awesome icons
-The shuffle() function was provided by Udacity (from Stackoverflow).
-trophy.png
+* HTML5
+* CSS3
+* JavaScript
+* Google Fonts (Coda, Dosis)
+* Font Awesome icons
+* The shuffle() function was provided by Udacity (from Stackoverflow).
+* trophy.png
 
 # How to play
 Clone this repository and open index.html in the browser OR use live version of a game.
 
 ## Issues
-The game is not yet ready to be played in the horizontal orientation.
+The game is not yet ready.
 
 # Licence
 The content of this repository is free and is licensed under a MIT Licence.  
