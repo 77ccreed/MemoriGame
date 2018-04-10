@@ -216,6 +216,7 @@ function restart() {
   s = 0;
   m = 0;
   write(s, m);
+  location.reload();
 }
 
 init();
