@@ -56,7 +56,7 @@ function init() { // to shuffle cards of the list, then remove the old order and
   cards = [...card];
 }
 
-
+//timer function 
 function write(s, m) {
   sec = (s < 10) ? "0" + s : s;
   min = (m < 10) ? "0" + m : m;
@@ -86,7 +86,7 @@ let timer_function = function () {
 
 };
 
-//toggle 
+
 function flip(arg) {
   arg.classList.toggle("closed");
   arg.classList.toggle("open");
@@ -176,6 +176,7 @@ function game() {
 
 }
 
+// remove stars when counter hit 21 and 29 moves
 function delstars() {
   if (counter > 20) {
     stars[2].remove();

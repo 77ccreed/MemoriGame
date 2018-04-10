@@ -16,13 +16,16 @@ The game ends once all cards have been correctly matched.
 # Code Dependencies
 The app is built with the following dependencies:
 
-* HTML5
-* CSS3
-* JavaScript
 * Google Fonts (Coda, Dosis)
 * Font Awesome icons
 * The shuffle() function was provided by Udacity (from Stackoverflow).
 * trophy.png
+
+## Built with
+
+* HTML5
+* CSS3
+* JavaScript
 
 # How to play
 Clone this repository and open index.html in the browser OR use live version of a game.
