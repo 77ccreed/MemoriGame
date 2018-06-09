@@ -1,35 +1,164 @@
-const repeat = document.querySelector(".fa-repeat"),
-  time = document.getElementById("time"),
-  moves = document.querySelector(".moves"),
-  popup = document.querySelector(".popup"),
-  panel_stars = document.querySelector(".stars").innerHTML,
-  score_moves = document.querySelector(".score_moves"),
-  score_time = document.querySelector(".score_time"),
-  deck = document.querySelector(".deck"),
-  Replay = document.querySelector(".Replay");
+/*
+ * Create a list that holds all of your cards
+ */
+const icons = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb", "fa fa-bolt", "fa fa-bolt"];
 
-let m = 0,
-  s = 0,
-  sec,
-  min,
-  i = 0,
-  gamestart = false,
-  redo = false,
-  card = document.getElementsByClassName("card"),
-  cards = [...card],
-  timer,
-  start = false,
-  list = [],
-  counter_matched = 0,
-  counter = 0,
-  score_stars = document.querySelector(".score_stars"),
-  stars = document.querySelectorAll(".fa-star");
+const cardsContainer = document.querySelector(".deck");
+
+let openedCards = [];
+let matchedCards = [];
+
+/* 
+ * Initzalize the game
+ */
+function init() {
+
+  // Shuffle the current `icons`
+  const iconsList = shuffle(icons);
+
+  for (i = 0; i < icons.length; i++) {
+    const card = document.createElement("li");
+    card.classList.add("card");
+    card.innerHTML = `<i class="${icons[i]}"></i>`;
+    cardsContainer.appendChild(card);
+
+    //add click event
+    click(card);
+  }
+
+}
+
+/*
+ *Click event
+ */
+
+function click(card) {
+
+  //card click event
+  card.addEventListener("click", function () {
+    const currentCard = this;
+    const previousCard = openedCards[0];
+
+    //we have an existing OPENED card
+    if (openedCards.length === 1) {
+      card.classList.add("open", "show", "disable");
+      openedCards.push(this);
+      //we compare our 2 opened cards
+      compare(currentCard, previousCard);
+    } else {
+      //we dont have any opened cards
+      currentCard.classList.add("open", "show", "disable");
+      openedCards.push(this);
+    }
+  });
+}
+/*
+ * compare 2 cards
+ */
+function compare(currentCard, previousCard) {
+  if (currentCard.innerHTML === previousCard.innerHTML) {
+    // matched
+    currentCard.classList.add("match");
+    previousCard.classList.add("match");
+    matchedCards.push(currentCard, previousCard);
+    openedCards = [];
+
+    //check is game over
+    isOver();
+  } else {
+    openedCards = [];
+    //wait 500 ms then do this
+    setTimeout(function () {
+      currentCard.classList.remove("open", "show", "disable");
+      previousCard.classList.remove("open", "show", "disable");
+    }, 500);
+  }
+  // Add new move
+  addMove();
+}
+
+/*
+ * Check if the game is over
+ */
+function isOver() {
+  if (matchedCards.length === icons.length) {
+    console.log("game is over");
+  }
+}
+
+
+/*
+ * Add move
+ */
+const movesContainer = document.querySelector(".moves");
+let moves = 0;
+movesContainer.innerHTML = 0;
+
+function addMove() {
+  moves++;
+  movesContainer.innerHTML = moves;
+  //Set the rating
+  rating();
+}
+
+/*
+ *Rating
+ */
+const starContainer = document.querySelector(".stars");
+
+function rating() {
+  switch (moves) {
+    case 15:
+      starContainer.innerHTML = `<li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>`;
+      break;
+    case 25:
+      starContainer.innerHTML = `<li><i class="fa fa-star"></i></li>`;
+      break;
+    case 30:
+      starContainer.innerHTML = ``;
+
+  }
+}
+
+/*
+ * Restart button
+ */
+
+const restartBtn = document.querySelector(".restart");
+restartBtn.addEventListener("click", function () {
+  // Delete all cards
+  cardsContainer.innerHTML = "";
+  // Call init to create new cards
+  init();
+  // Reset any related variables
+  matchedCards = [];
+  moves = 0;
+  movesContainer.innerHTML = moves;
+  starContainer.innerHTML =
+    `<li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class ="fa fa-star"></i></li> `;
+
+});
+
+/*  
+ * Start the game first time
+ */
+
+init();
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-  let currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
+  var currentIndex = array.length,
+    temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -42,188 +171,14 @@ function shuffle(array) {
   return array;
 }
 
-function init() { // to shuffle cards of the list, then remove the old order and set the new one by manipulating the DOM
-  let div = "",
-    HTML = "";
-  deck.innerHTML = "";
-  cards = shuffle(cards);
-  for (i = 0; i < 16; i += 1) {
-    div = cards[i].outerHTML;
-    HTML = HTML.concat(div);
-  }
-  deck.innerHTML = HTML;
-  card = document.getElementsByClassName("card");
-  cards = [...card];
-}
 
-//timer function 
-function write(s, m) {
-  sec = (s < 10) ? "0" + s : s;
-  min = (m < 10) ? "0" + m : m;
-  time.textContent = min + ":" + sec;
-}
-
-write(s, m);
-moves.textContent = counter;
-
-let timer_function = function () {
-
-  timer = setInterval(function () {
-    "use strict";
-
-    if (s < 59) {
-
-      s += 1;
-    }
-
-    if (s === 59) {
-
-      s = 0;
-      m += 1;
-    }
-    write(s, m);
-  }, 1000);
-
-};
-
-
-function flip(arg) {
-  arg.classList.toggle("closed");
-  arg.classList.toggle("open");
-}
-
-function close_matched(arg) {
-  arg.classList.toggle("closed");
-  arg.classList.toggle("match");
-}
-
-
-function match(arg) {
-  arg.classList.toggle("open");
-  arg.classList.toggle("match");
-}
-
-function error(arg) {
-  arg.classList.toggle("open");
-  arg.classList.toggle("error");
-}
-
-function flip_error(arg) {
-  arg.classList.toggle("error");
-  arg.classList.toggle("closed");
-}
-
-
-function display_counter() {
-  counter += 1;
-  moves.textContent = counter;
-}
-
-function game() {
-
-  if ((this.classList.contains("closed")) && (list.length < 2)) { //when we click on a closed card & when we compare it to only one other card
-    flip(this); //open the card
-    if (gamestart === false || redo === true) {
-      timer_function(); //if it is the first card to be clicked (we just started the game) : start the timer
-      gamestart = true;
-      redo = false; // in case we have clicked the restart button this variable is to disable the clearInterval function (enable the timer)
-    }
-    list.push(this); //we add the card to the list of open cards
-    display_counter();
-
-
-    if (list.length === 1) { //if there is only one open card : we don't want it to flip if we click it again
-
-      this.removeEventListener("click", game);
-    } else if (list.length === 2) { //if there are two open cards we compare their symbols
-
-      if (list[0].firstElementChild.classList.item(1) === this.firstElementChild.classList.item(1)) {
-
-        counter_matched += 1;
-
-        setTimeout(function () {
-          match(list[0]);
-          match(list[1]);
-        }, 1000);
-
-        if (counter_matched === 8) { //if the game is won pop-up the modal
-          matched();
-          init();
-        }
-
-
-      } else { //if the two open cards do not match
-        setTimeout(function () {
-          error(list[1]);
-          error(list[0]);
-        }, 1000);
-        setTimeout(function () {
-          flip_error(list[1]);
-          flip_error(list[0]);
-        }, 2000);
-
-      }
-      setTimeout(function () { //in both cases finally: we clear the list of open cards
-        list.pop();
-        list.pop();
-      }, 2001);
-
-    }
-
-  }
-
-  delstars();
-
-}
-
-// remove stars when counter hit 21 and 29 moves
-function delstars() {
-  if (counter > 20) {
-    stars[2].remove();
-  }
-  if (counter > 28) {
-    stars[1].remove();
-  }
-}
-
-function matched() {
-  setTimeout(write(s, m), 0);
-  clearInterval(timer);
-  popup.classList.remove("hidden");
-  score_moves.textContent = counter + "  ";
-  score_stars.innerHTML = document.querySelector(".stars").innerHTML;
-  score_time.textContent = "  " + time.textContent;
-  Replay.addEventListener("click", restart);
-}
-
-
-function restart() {
-  popup.classList.add("hidden");
-  list.splice(0, list.length);
-  counter_matched = 0;
-  counter = 0;
-  document.querySelector(".stars").innerHTML = panel_stars;
-  if (redo === false) {
-    clearInterval(timer);
-    redo = true;
-  }
-  for (i = 0; i < 16; i += 1) {
-    cards[i].classList.remove("open");
-    cards[i].classList.remove("match");
-    cards[i].classList.add("closed");
-  }
-  moves.textContent = 0;
-  s = 0;
-  m = 0;
-  write(s, m);
-  location.reload();
-}
-
-init();
-repeat.addEventListener("click", restart);
-repeat.addEventListener("click", init);
-
-for (const card of cards) {
-  card.addEventListener("click", game);
-  card.addEventListener("dblclick", game);
-}
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */

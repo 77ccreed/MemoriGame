@@ -8,11 +8,10 @@ html {
   box-sizing: inherit;
 }
 
-
 html,
 body {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -31,8 +30,8 @@ body {
 }
 
 h1 {
-  font-family: 'Dosis', sans-serif;
-  font-size: 2em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
 
 /*
@@ -42,7 +41,7 @@ h1 {
 .deck {
   width: 660px;
   min-height: 680px;
-  background: linear-gradient(160deg, #24029e2c 0%, #029b9b55 100%);
+  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
   padding: 32px;
   border-radius: 10px;
   box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
@@ -56,9 +55,9 @@ h1 {
 .deck .card {
   height: 125px;
   width: 125px;
-  color: #ffffff;
   background: #2e3d49;
   font-size: 0;
+  color: #ffffff;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -67,90 +66,41 @@ h1 {
   box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
-.deck .card.closed {
-  background: #1a1c1d;
-  font-size: 0;
+.deck .card.open {
+  transform: rotateY(0);
+  background: #02b3e4;
   cursor: default;
-  transform: rotateY(180deg);
 }
 
-.deck .card.open {
-  transform: rotateY(180deg);
-  background: #017392;
-  cursor: default;
+.deck .card.show {
   font-size: 33px;
 }
 
 .deck .card.match {
   cursor: default;
-  background: rgb(18, 141, 7);
+  background: #02ccba;
   font-size: 33px;
-  animation: popout 1s ease;
-  -webkit-animation: popout 1s ease;
 }
 
-.deck .card.error {
-  cursor: default;
-  background: rgb(194, 41, 41);
-  font-size: 33px;
-  animation: popout 1s ease;
-  -webkit-animation: popout 1s ease;
-}
-
-@keyframes popout {
-  from {
-    transform: scale(0)
-  }
-  80% {
-    transform: scale(1.2)
-  }
-  to {
-    transform: scale(1)
-  }
-}
-
-@-webkit-keyframes popout {
-  from {
-    -webkit-transform: scale(0)
-  }
-  80% {
-    -webkit-transform: scale(1.2)
-  }
-  to {
-    -webkit-transform: scale(1)
-  }
+.deck .card.disable {
+  pointer-events: none;
 }
 
 /*
  * Styles for the Score Panel
  */
 
-.panel {
-  display: flex;
-  width: 660px;
-  text-align: center;
-  background-color: #017392;
-  color: #ffffff;
-}
-
-.panel #time {
-  width: 315px;
-  text-align: left;
-  padding-left: 15px;
-   text-align: center;
-}
-
 .score-panel {
+  text-align: left;
   width: 345px;
   margin-bottom: 10px;
 }
 
 .score-panel .stars {
-  text-align: center;
+  margin: 0;
+  padding: 0;
   display: inline-block;
   margin: 0 5px 0 0;
-  font-size: 24px;
-  color: yellow;
 }
 
 .score-panel .stars li {
@@ -161,46 +111,4 @@ h1 {
 .score-panel .restart {
   float: right;
   cursor: pointer;
-  padding-right: 15px;
-}
-
-div.popup {
-  text-align: center;
-  position: absolute;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.3);
-  width: 450px;
-  height: 450px;
-  padding-top: 50px;
-  font-family: 'Dosis', sans-serif;
-}
-
-div.popup.hidden {
-  display: none;
-}
-
-.popup p {
-  color: #050505;
-  font-size: 1.4em;
-}
-
-button.Replay {
-  width: 150px;
-  height: 50px;
-  font-size: 1.4em;
-}
-
-.score_stars {
-  list-style: none;
-  display: flex;
-  position: relative;
-  left: 47%;
-}
-
-@media screen and (min-width: 1025px) {
-  div.popup {
-    width: 35%;
-    height: 25%;
-    top: 25%;
-  }
 }
