@@ -3,19 +3,27 @@
  */
 const icons = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb", "fa fa-bolt", "fa fa-bolt"];
 
-const cardsContainer = document.querySelector(".deck");
+const cardsContainer = document.querySelector(".deck"),
+  secondsContainer = document.querySelector("#seconds"),
+  minutesContainer = document.querySelector("#minutes"),
+  hoursContainer = document.querySelector("#hours");
 
-let openedCards = [];
-let matchedCards = [];
+
+let openedCards = [],
+  matchedCards = [],
+  firstClick = true,
+  totalTime = 0,
+  hours, minutes, seconds,
+  incrementer;
+
+
 
 /* 
  * Initzalize the game
  */
 function init() {
-
   // Shuffle the current `icons`
   const iconsList = shuffle(icons);
-
   for (i = 0; i < icons.length; i++) {
     const card = document.createElement("li");
     card.classList.add("card");
@@ -33,9 +41,18 @@ function init() {
  */
 
 function click(card) {
-
   //card click event
   card.addEventListener("click", function () {
+
+
+    // The First Click? Start the timer!
+    if (firstClick) {
+
+      startTimer();
+
+      firstClick = false; // This will prevent the timer to start again if the user clicked on another card
+    }
+
     const currentCard = this;
     const previousCard = openedCards[0];
 
@@ -82,6 +99,7 @@ function compare(currentCard, previousCard) {
  */
 function isOver() {
   if (matchedCards.length === icons.length) {
+    stopTimer();
     console.log("game is over");
   }
 }
@@ -142,10 +160,48 @@ restartBtn.addEventListener("click", function () {
 
 });
 
+/*
+ * Timer [ Start ] 
+ */
+
+function startTimer() {
+  // Start Incrementer
+  incrementer = setInterval(function () {
+
+    // Add totalTime by 1
+    totalTime += 1;
+
+    // Convert Total Time to H:M:S
+    calculateTime(totalTime);
+
+    // Change the current time values
+    secondsContainer.innerHTML = seconds;
+    minutesContainer.innerHTML = minutes;
+    hoursContainer.innerHTML = hours;
+  }, 1000);
+}
+
+/*
+ * Timer [ Calculate Time ] 
+ */
+function calculateTime(totalTime) {
+  hours = Math.floor(totalTime / 60 / 60);
+  minutes = Math.floor((totalTime / 60) % 60);
+  seconds = totalTime % 60;
+}
+
+/*
+ * Timer [ Stop ] 
+ */
+function stopTimer() {
+  // Stop Timer
+  clearInterval(incrementer);
+}
+
+
 /*  
  * Start the game first time
  */
-
 init();
 
 /*

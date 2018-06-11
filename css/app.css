@@ -1,3 +1,7 @@
+/**{
+  border: 1px solid red;
+}*/
+
 html {
   box-sizing: border-box;
 }
@@ -109,6 +113,10 @@ h1 {
 }
 
 .score-panel .restart {
-  float: right;
+ margin-left: 15px;
   cursor: pointer;
+}
+
+div.popup.hidden {
+  display: none;
 }
