@@ -99,11 +99,48 @@ function compare(currentCard, previousCard) {
  */
 function isOver() {
   if (matchedCards.length === icons.length) {
-    stopTimer();
     console.log("game is over");
+    stopTimer();
   }
 }
 
+/*
+ * Timer [ Start ] 
+ */
+
+function startTimer() {
+  // Start Incrementer
+  incrementer = setInterval(function () {
+
+    // Add totalTime by 1
+    totalTime += 1;
+
+    // Convert Total Time to H:M:S
+    calculateTime(totalTime);
+
+    // Change the current time values
+    secondsContainer.innerHTML = seconds;
+    minutesContainer.innerHTML = minutes;
+    hoursContainer.innerHTML = hours;
+  }, 1000);
+}
+
+/*
+ * Timer [ Calculate Time ] 
+ */
+function calculateTime(totalTime) {
+  hours = Math.floor(totalTime / 60 / 60);
+  minutes = Math.floor((totalTime / 60) % 60);
+  seconds = totalTime % 60;
+}
+
+/*
+ * Timer [ Stop ] 
+ */
+function stopTimer() {
+  // Stop Timer
+  clearInterval(incrementer);
+}
 
 /*
  * Add move
@@ -157,46 +194,16 @@ restartBtn.addEventListener("click", function () {
     `<li><i class="fa fa-star"></i></li>
                 <li><i class="fa fa-star"></i></li>
                 <li><i class ="fa fa-star"></i></li> `;
-
+  stopTimer();
+  totalTime = 0;
+  firstClick = true;
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
+  hoursContainer.innerHTML = "00";
+  minutesContainer.innerHTML = "00";
+  secondsContainer.innerHTML = "00";
 });
-
-/*
- * Timer [ Start ] 
- */
-
-function startTimer() {
-  // Start Incrementer
-  incrementer = setInterval(function () {
-
-    // Add totalTime by 1
-    totalTime += 1;
-
-    // Convert Total Time to H:M:S
-    calculateTime(totalTime);
-
-    // Change the current time values
-    secondsContainer.innerHTML = seconds;
-    minutesContainer.innerHTML = minutes;
-    hoursContainer.innerHTML = hours;
-  }, 1000);
-}
-
-/*
- * Timer [ Calculate Time ] 
- */
-function calculateTime(totalTime) {
-  hours = Math.floor(totalTime / 60 / 60);
-  minutes = Math.floor((totalTime / 60) % 60);
-  seconds = totalTime % 60;
-}
-
-/*
- * Timer [ Stop ] 
- */
-function stopTimer() {
-  // Stop Timer
-  clearInterval(incrementer);
-}
 
 
 /*  
@@ -226,15 +233,3 @@ function shuffle(array) {
 
   return array;
 }
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
